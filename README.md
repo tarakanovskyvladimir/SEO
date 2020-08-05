@@ -1,2 +1,2 @@
-# test
-Test project
+# seo
+Инструменты для seo-специалиста на javascript

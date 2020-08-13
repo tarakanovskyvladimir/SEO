@@ -1,12 +1,23 @@
 /*1. Парсинг сайтов из органической выдачи из Яндекса */
-document.querySelectorAll(".serp-item").forEach(function(item){
-	if(item.innerText.search("реклама")==-1 && item.querySelector(".link") !==null){
-		console.log(item.querySelector(".path .link b").innerText);
+clear();
+const yandex_serp = [];
+let serp_selector=".path .link b" || ".typo a";
+const pagination_yandex_serp = () =>{
+	const current_url=window.location.href.search("p=");
+	const pagination_page=Number(window.location.href.slice(current_url+2))||0;
+	return pagination_page;
+}
+document.querySelectorAll(".serp-item").forEach((item)=>{
+	if(item.innerText.search("реклама")==-1 && item.querySelector(".link") !==null && 
+		item.dataset.fastWzrd!=="companies" && item.dataset.fastWzrd!=="ydo"){
+		yandex_serp.push(item.querySelector(serp_selector).innerText);
 	}
 });
+const yandex_serp_print=yandex_serp.map((ya_serp, i)=>`№${i+1+pagination_yandex_serp()*10} - ${ya_serp}`);
+console.log(yandex_serp_print.join(`\n`));
 
 /*2. Парсинг сайтов из органической выдачи из Гугла */
-document.querySelectorAll(".g").forEach(function(item){ 
+document.querySelectorAll(".g").forEach((item)=>{ 
 	let position_arrow = item.querySelector("cite").innerText.search(" ›");
 	console.log(item.querySelector("cite").innerText.slice(0, position_arrow));
 });
@@ -15,10 +26,34 @@ document.querySelectorAll(".g").forEach(function(item){
 const nodes_site=['title', 'h1', 'strong', 'b', 'i', 'em'];
 nodes_site.map(node_length_text=>{let node_length_text_el = document.querySelectorAll(node_length_text);
 console.log(`Количество элементов ${node_length_text} = ${node_length_text_el.length}`);
-if(node_length_text_el.length>0){node_length_text_el.forEach(function (item){console.log(`Текст элеманта ${node_length_text}: ${item.innerText}`)})}
+if(node_length_text_el.length>0){
+	node_length_text_el.forEach((item)=>{console.log(`Текст элеманта ${node_length_text}: ${item.innerText}`)})}
 });
 
 /*4. Проверка на внешние ссылки */
 const links_site=[];
-document.querySelectorAll("a").forEach(function(item){links_site.push(item.href)}); 
-links_site.filter(link_site=>link_site.search("santekhnikashchelkovo.com")==-1).map(link_site=>console.log(link_site));
+document.querySelectorAll("a").forEach((item)=>{links_site.push(item.href)});
+const nofollow_links=(site_address)=>{
+	const nofollow_link=links_site.filter(link_site=>link_site.search(site_address)==-1);
+	console.log(nofollow_link.join(`\n`));
+}
+nofollow_links(window.location.hostname);
+
+/*5. Проверка существования robots.txt и sitemap.xml и их содержание*/
+clear();
+const input_rs=['robots.txt', 'sitemap.xml'];
+input_rs.map(async (rs)=>{
+	let response = await fetch(`/${rs}`);
+	let status_file = await response.ok;
+	let text_file = await response.text(); // прочитать тело ответа как текст
+	if (status_file) {console.log(`Файл ${rs} есть в корне сайта! Его содержимое: 
+	${text_file}`);} 
+	else {console.log(`Файл ${rs} не найден!`);}
+});
+
+/*6. Ключевики для вордстата для статей*/
+const product_brend=[];
+const article_word=['+где', '+когда', '+почему', '+зачем', '+куда', '+кто', '+что', '+это', 
+'+как', '+какой', '+какая', '+какие', '+какое', '+который', '+которая', '+которое', '+которые', 
+'+сколько', '+скольких', '+ скольким', '+ сколькими', '+чей', '+чья', '+чьё', '+чьи', 
+'+чьего', '+чьему', '+чьём', '+чьих']; 

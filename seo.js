@@ -9,7 +9,9 @@ const pagination_yandex_serp = () =>{
 }
 document.querySelectorAll(".serp-item").forEach((item)=>{
 	if(item.innerText.search("реклама")==-1 && item.querySelector(".link") !==null && 
-		item.dataset.fastWzrd!=="companies" && item.dataset.fastWzrd!=="ydo"){
+		item.dataset.fastWzrd!=="companies" && item.dataset.fastWzrd!=="ydo" && 
+		item.dataset.fastWzrd!=="videowiz" && item.dataset.fastWzrd!=="images" && 
+		item.dataset.fastWzrd!=="entity_search"){
 		yandex_serp.push(item.querySelector(serp_selector).innerText);
 	}
 });
@@ -17,10 +19,13 @@ const yandex_serp_print=yandex_serp.map((ya_serp, i)=>`№${i+1+pagination_yande
 console.log(yandex_serp_print.join(`\n`));
 
 /*2. Парсинг сайтов из органической выдачи из Гугла */
+const google_serp=[];
 document.querySelectorAll(".g").forEach((item)=>{ 
 	let position_arrow = item.querySelector("cite").innerText.search(" ›");
-	console.log(item.querySelector("cite").innerText.slice(0, position_arrow));
+	google_serp.push(item.querySelector("cite").innerText.slice(0, position_arrow));
 });
+const google_serp_print=google_serp.map((go_serp, i)=>`№${i} - ${go_serp}`);
+console.log(google_serp_print.join(`\n`));
 
 /*3. Проверка нахождения элементов на странице */
 const nodes_site=['title', 'h1', 'strong', 'b', 'i', 'em'];

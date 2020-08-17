@@ -51,9 +51,13 @@ input_rs.map(async (rs)=>{
 	else {console.log(`Файл ${rs} не найден!`);}
 });
 
-/*6. Ключевики для вордстата для статей*/
-const product_brend=[];
-const article_word=['+где', '+когда', '+почему', '+зачем', '+куда', '+кто', '+что', '+это', 
-'+как', '+какой', '+какая', '+какие', '+какое', '+который', '+которая', '+которое', '+которые', 
-'+сколько', '+скольких', '+ скольким', '+ сколькими', '+чей', '+чья', '+чьё', '+чьи', 
-'+чьего', '+чьему', '+чьём', '+чьих']; 
+/*6. Проверка на наличие alt у изображений*/
+const image_alt=[]; const image_no_alt=[];
+document.querySelectorAll("img").forEach((has_alt)=>{
+	if (has_alt.alt.search(/(.?[a-zA-Zа-яёА-ЯЁ]{3,}\s?.*)/gm)>-1) {image_alt.push(has_alt.alt);} 
+	else {image_no_alt.push(`Alt: ${has_alt.alt}, адрес: ${has_alt.src}`);} 
+});
+if (image_no_alt.length>0) {console.log(`Атрибут alt отсутствует или некачественный у следующих изображений:
+${image_no_alt.join(`\n`)}`);} 
+if (image_alt.length>0) {console.log(`Текст атрибута alt:
+${image_alt.join(`\n`)}`);} 

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<meta charset="UTF-8">
-	<title>Подбор ключевых фраз в вордстате для статей</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Подбор ключевых фраз в Wordstat для статей</title>
 </head>
 <body>
 	<main class="container block-center">
-		<h1>Подбор ключевых фраз в вордстате для статей</h1>
+		<h1>Подбор ключевых фраз в Wordstat для статей</h1>
 		<form name="form_words" id="form_words" class="flex-container" method="post">
 			<section>
 				<h3>Выберите город:</h3>
@@ -117,11 +118,9 @@
 				    <option value="34"></option> -->
 				 </select>
 				<h3>Введите название товара или бренда</h3>
-				<input type="text" name="input_word">
+				<input type="text" name="input_word" placeholder="Название товара или бренда">
 				<button type="submit" name="add_word" id="add_word">Добавить</button>
-				<ul id="list_words">
-					
-				</ul>
+				<ul id="list_words"></ul>
 			</section>
 			<section class="field-checkbox flex-container">
 				<h3>Выберите одно или несколько ключевых слов из списка ниже</h3>
@@ -155,7 +154,7 @@
 				<input type="checkbox" name="ch20" id="ch20" value="сколиким"><label for="ch20">скольким</label>
 				<input type="checkbox" name="ch21" id="ch21" value="сколькими"><label for="ch21">сколькими</label>
 			</section>
-			<button type="submit" name="get_result" id="get_result">Получить фраз для Wordstat</button>
+			<button type="submit" name="get_result" id="get_result">Получить фразы для Wordstat</button>
 		</form>
 		<h3>Ваши фразы для Вордстата:</h3>
 		<ul id="list_get_result"></ul>
@@ -175,6 +174,7 @@
 		    display: -webkit-box; display: -webkit-flex; display: -ms-flexbox;
 		    display: flex; flex-flow: row wrap;}
 		#form_words>section, .field-checkbox{flex:0 1 48%;}
+		#form_words{justify-content: center;}
 		.field-checkbox {justify-content: space-around;}
 	</style>
 	<script type="text/javascript">
